@@ -165,7 +165,6 @@ public class WrapperUtil {
 
     //TODO implement
     static void removePicInfo(Context context,String pathName, int UID) {
-        //CHECK PATHNAME MAKE SURE IT ENDS WITH PICS
         if (checkPicPath(pathName)) {
             Wrapper currNode = loadPictureWrapper(context, pathName, UID);
             Wrapper prevNode = loadPictureWrapper(context, pathName, currNode.getPrevID());
