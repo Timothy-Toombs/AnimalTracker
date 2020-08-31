@@ -38,14 +38,13 @@ public class WrapperUtil {
         //CHECK PATHNAME MAKE SURE IT ENDS WITH LOGS
         if (!checkLogPath(pathName));
         // If already initalized in path, return current start Sentinel.
-//        File file = context.getFileStreamPath(pathName + "/-2");
-//        if (file.exists())
-//            return loadLogInfoWrapper(context, pathName, Wrapper.WRAPPER_START_SENTINEL);
-        if (loadLogInfoWrapper(context, pathName, Wrapper.WRAPPER_START_SENTINEL) != null)
-            return loadLogInfoWrapper(context, pathName, Wrapper.WRAPPER_START_SENTINEL);
+        LogInfoWrapper startSentinel = loadLogInfoWrapper(context, pathName,
+                Wrapper.WRAPPER_START_SENTINEL);
+        if (startSentinel != null)
+            return startSentinel;
         //Initialize start node, Initialize EndNode
         //Connect the two
-        LogInfoWrapper startSentinel = new LogInfoWrapper(Wrapper.WRAPPER_START_SENTINEL,
+        startSentinel = new LogInfoWrapper(Wrapper.WRAPPER_START_SENTINEL,
                 Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL, null);
         LogInfoWrapper endSentinel = new LogInfoWrapper(Wrapper.WRAPPER_END_SENTINEL,
                 Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL, null);
@@ -60,14 +59,13 @@ public class WrapperUtil {
         //CHECK PATHNAME MAKE SURE IT ENDS WITH PICS
         if (!checkPicPath(pathName));
         // If already initalized in path, return current start Sentinel.
-//        File file = context.getFileStreamPath(pathName + "/-2");
-//        if (file.exists())
-//            return loadPictureWrapper(context, pathName, Wrapper.WRAPPER_START_SENTINEL);
-        if (loadPictureWrapper(context, pathName, Wrapper.WRAPPER_START_SENTINEL) != null)
-            return loadPictureWrapper(context, pathName, Wrapper.WRAPPER_START_SENTINEL);
+        PictureWrapper startSentinel = loadPictureWrapper(context, pathName,
+                Wrapper.WRAPPER_START_SENTINEL);
+        if (startSentinel != null)
+            return startSentinel;
         //Initialize start node, Initialize EndNode
         //Connect the two
-        PictureWrapper startSentinel = new PictureWrapper(Wrapper.WRAPPER_START_SENTINEL,
+        startSentinel = new PictureWrapper(Wrapper.WRAPPER_START_SENTINEL,
                 Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL, null);
         PictureWrapper endSentinel = new PictureWrapper(Wrapper.WRAPPER_END_SENTINEL,
                 Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL, null);
@@ -82,14 +80,13 @@ public class WrapperUtil {
         //CHECK PATHNAME MAKE SURE IT ENDS WITH WEIGHTS
         if (!checkWeightPath(pathName));
         // If already initalized in path, return current start Sentinel.
-//        File file = context.getFileStreamPath(pathName + "/-2");
-//        if (file.exists())
-//            return loadWeightWrapper(context, pathName, Wrapper.WRAPPER_START_SENTINEL);
-        if (loadWeightWrapper(context, pathName, Wrapper.WRAPPER_START_SENTINEL) != null)
-            return loadWeightWrapper(context, pathName, Wrapper.WRAPPER_START_SENTINEL);
+        WeightWrapper startSentinel = loadWeightWrapper(context, pathName,
+                Wrapper.WRAPPER_START_SENTINEL);
+        if (startSentinel != null)
+            return startSentinel;
         //Initialize start node, Initialize EndNode
         //Connect the two
-        WeightWrapper startSentinel = new WeightWrapper(Wrapper.WRAPPER_START_SENTINEL,
+        startSentinel = new WeightWrapper(Wrapper.WRAPPER_START_SENTINEL,
                 Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL, null);
         WeightWrapper endSentinel = new WeightWrapper(Wrapper.WRAPPER_END_SENTINEL,
                 Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL, null);
@@ -182,8 +179,8 @@ public class WrapperUtil {
         //CHECK PATHNAME MAKE SURE IT ENDS WITH LOGS
         if (checkLogPath(pathName)) {
             Wrapper currNode = loadLogInfoWrapper(context, pathName, UID);
-            Wrapper prevNode = loadPictureWrapper(context, pathName, currNode.getPrevID());
-            Wrapper nextNode = loadPictureWrapper(context, pathName, currNode.getNextID());
+            Wrapper prevNode = loadLogInfoWrapper(context, pathName, currNode.getPrevID());
+            Wrapper nextNode = loadLogInfoWrapper(context, pathName, currNode.getNextID());
 
             prevNode.setNextID(nextNode.getUID());
             nextNode.setPrevID(prevNode.getUID());
