@@ -35,7 +35,7 @@ public class WrapperUtil {
     }
 
     //TODO implement
-    public static LogInfoWrapper initializeLogInfoLinkedList(Context context, String pathName) {
+    private static LogInfoWrapper initializeLogInfoLinkedList(Context context, String pathName) {
         //CHECK PATHNAME MAKE SURE IT ENDS WITH LOGS
         if (!checkLogPath(pathName));
         // If already initalized in path, return current start Sentinel.
@@ -56,7 +56,7 @@ public class WrapperUtil {
         return startSentinel;
     }
     //TODO implement
-    public static PictureWrapper initializePicInfoLinkedList(Context context,String pathName) {
+    private static PictureWrapper initializePicInfoLinkedList(Context context,String pathName) {
         //CHECK PATHNAME MAKE SURE IT ENDS WITH PICS
         if (!checkPicPath(pathName));
         // If already initalized in path, return current start Sentinel.
@@ -77,7 +77,7 @@ public class WrapperUtil {
         return startSentinel;
     }
     //TODO implement
-    public static WeightWrapper initializeWeightInfoLinkedList(Context context,String pathName) {
+     private static WeightWrapper initializeWeightInfoLinkedList(Context context,String pathName) {
         //CHECK PATHNAME MAKE SURE IT ENDS WITH WEIGHTS
         if (!checkWeightPath(pathName));
         // If already initalized in path, return current start Sentinel.
@@ -99,7 +99,7 @@ public class WrapperUtil {
     }
 
 
-    public static void insertGeneric(Context context,String pathName,Wrapper wrapper) {
+    private static void insertGeneric(Context context,String pathName,Wrapper wrapper) {
         Wrapper startNode = loadWrapper(context, pathName, Wrapper.WRAPPER_START_SENTINEL);
         Wrapper firstNode = loadWrapper(context,pathName,startNode.getNextID());
 
@@ -226,7 +226,7 @@ public class WrapperUtil {
         }
     }
 
-    public static  Wrapper loadWrapper(Context context, String pathName, long UUID) {
+    private static  Wrapper loadWrapper(Context context, String pathName, long UUID) {
        Wrapper wrapper= null;
         try {
             FileInputStream fis = context.openFileInput(pathName + UUID);
@@ -246,13 +246,13 @@ public class WrapperUtil {
 
        return wrapper;
     }
-    private static LogInfoWrapper loadLogInfoWrapper(Context context,String pathName, long UUID) {
+    public static LogInfoWrapper loadLogInfoWrapper(Context context,String pathName, long UUID) {
         return (LogInfoWrapper) loadWrapper(context,pathName,UUID);
     }
-    private static  PictureWrapper loadPictureWrapper(Context context,String pathName, long UUID) {
+    public static  PictureWrapper loadPictureWrapper(Context context,String pathName, long UUID) {
         return (PictureWrapper) loadWrapper(context,pathName,UUID);
     }
-    private static  WeightWrapper loadWeightWrapper(Context context, String pathName, long UUID) {
+    public static  WeightWrapper loadWeightWrapper(Context context, String pathName, long UUID) {
         return (WeightWrapper) loadWrapper(context,pathName,UUID);
     }
 }

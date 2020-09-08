@@ -32,14 +32,13 @@ public class DummyPage extends AppCompatActivity {
             //NOTE THAT THIS ONLY CONFIRMS THAT THE INFO LOADS AND SAVES.
             @Override
             public void onClick(View view) { //TODO this is just a test of functionality. du
-                WrapperUtil.initializeLogInfoLinkedList(getApplicationContext(),"DAISY-" + WrapperUtil.logPathDirName);
                 WrapperUtil.insertLogInfo(getApplicationContext(),"DAISY-" + WrapperUtil.logPathDirName,new LogInfoWrapper(DummyPage.g, Wrapper.WRAPPER_START_SENTINEL,Wrapper.WRAPPER_END_SENTINEL,
                         new LogInfo(new GregorianCalendar(),"THIS IS THE LOG MESSAGE")));
-                LogInfoWrapper wrapper = (LogInfoWrapper) WrapperUtil.loadWrapper(getApplicationContext(),"DAISY-"+ WrapperUtil.logPathDirName,DummyPage.g);
+                LogInfoWrapper wrapper = (LogInfoWrapper) WrapperUtil.loadLogInfoWrapper(getApplicationContext(),"DAISY-"+ WrapperUtil.logPathDirName,DummyPage.g);
                 Logger.getAnonymousLogger().info("THIS IS THE ID OF THE PREV AND THE NEXT, RESPECTIVELY: " +wrapper.getPrevID() + ", " + wrapper.getNextID());
                 DummyPage.g++;
             }
         }); //TODO REFACTOR THIS >:)
-        
+
     }
 }
