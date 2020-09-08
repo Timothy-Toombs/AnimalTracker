@@ -3,6 +3,7 @@ package toombs.animaltracker.wrappers;
 import android.content.Context;
 import android.util.Log;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -11,26 +12,30 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Logger;
 
-import toombs.animaltracker.Wrappers.Wrapper;
+import toombs.animaltracker.wrappers.Wrapper;
+import toombs.animaltracker.wrappers.infoClasses.LogInfo;
+import toombs.animaltracker.wrappers.infoClasses.PictureInfo;
+import toombs.animaltracker.wrappers.infoClasses.WeightInfo;
 
 public class WrapperUtil {
     //TODO use getFilesDir
     //File directory = new File(Environment.getExternalStorageDirectory() + "/images");
     //directory.mkdirs();
     //use to uhhhh :))))
-    static final  String logPathDirName = "LOGS";
-    static final String picPathDirName = "PICS";
-    static final String weightPathDirName = "WEIGHTS";
+    public static final  String logPathDirName = "LOGS_";
+    public static final String picPathDirName = "PICS_";
+    public static final String weightPathDirName = "WEIGHTS_";
 
-    static void pairWrappers(toombs.animaltracker.Wrappers.Wrapper first, toombs.animaltracker.Wrappers.Wrapper second) {
+    static void pairWrappers(Wrapper first, Wrapper second) {
 
         first.setNextID(second.getUID());
         second.setPrevID(first.getUID());
     }
 
     //TODO implement
-    static LogInfoWrapper initializeLogInfoLinkedList(Context context, String pathName) {
+    private static LogInfoWrapper initializeLogInfoLinkedList(Context context, String pathName) {
         //CHECK PATHNAME MAKE SURE IT ENDS WITH LOGS
         if (!checkLogPath(pathName));
         // If already initalized in path, return current start Sentinel.
@@ -41,9 +46,9 @@ public class WrapperUtil {
         //Initialize start node, Initialize EndNode
         //Connect the two
         startSentinel = new LogInfoWrapper(Wrapper.WRAPPER_START_SENTINEL,
-                Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL, null);
+                Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL, new LogInfo(null,null));
         LogInfoWrapper endSentinel = new LogInfoWrapper(Wrapper.WRAPPER_END_SENTINEL,
-                Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL, null);
+                Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL,  new LogInfo(null,null));
         //Serialize both
         serializeWrapper(context, pathName, startSentinel);
         serializeWrapper(context, pathName, endSentinel);
@@ -51,7 +56,7 @@ public class WrapperUtil {
         return startSentinel;
     }
     //TODO implement
-    static PictureWrapper initializePicInfoLinkedList(Context context,String pathName) {
+    private static PictureWrapper initializePicInfoLinkedList(Context context,String pathName) {
         //CHECK PATHNAME MAKE SURE IT ENDS WITH PICS
         if (!checkPicPath(pathName));
         // If already initalized in path, return current start Sentinel.
@@ -62,9 +67,9 @@ public class WrapperUtil {
         //Initialize start node, Initialize EndNode
         //Connect the two
         startSentinel = new PictureWrapper(Wrapper.WRAPPER_START_SENTINEL,
-                Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL, null);
+                Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL, new PictureInfo(null,null));
         PictureWrapper endSentinel = new PictureWrapper(Wrapper.WRAPPER_END_SENTINEL,
-                Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL, null);
+                Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL, new PictureInfo(null,null));
         //Serialize both
         serializeWrapper(context, pathName, startSentinel);
         serializeWrapper(context, pathName, endSentinel);
@@ -72,7 +77,7 @@ public class WrapperUtil {
         return startSentinel;
     }
     //TODO implement
-    static WeightWrapper initializeWeightInfoLinkedList(Context context,String pathName) {
+     private static WeightWrapper initializeWeightInfoLinkedList(Context context,String pathName) {
         //CHECK PATHNAME MAKE SURE IT ENDS WITH WEIGHTS
         if (!checkWeightPath(pathName));
         // If already initalized in path, return current start Sentinel.
@@ -83,9 +88,9 @@ public class WrapperUtil {
         //Initialize start node, Initialize EndNode
         //Connect the two
         startSentinel = new WeightWrapper(Wrapper.WRAPPER_START_SENTINEL,
-                Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL, null);
+                Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL, new WeightInfo(null,0,0));
         WeightWrapper endSentinel = new WeightWrapper(Wrapper.WRAPPER_END_SENTINEL,
-                Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL, null);
+                Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL, new WeightInfo(null,0,0));
         //Serialize both
         serializeWrapper(context, pathName, startSentinel);
         serializeWrapper(context, pathName, endSentinel);
@@ -94,9 +99,9 @@ public class WrapperUtil {
     }
 
 
-    static void insertGeneric(Context context,String pathName,Wrapper wrapper) {
-        Wrapper startNode = loadWeightWrapper(context, pathName, Wrapper.WRAPPER_START_SENTINEL);
-        Wrapper firstNode = loadWeightWrapper(context,pathName,startNode.getNextID());
+    private static void insertGeneric(Context context,String pathName,Wrapper wrapper) {
+        Wrapper startNode = loadWrapper(context, pathName, Wrapper.WRAPPER_START_SENTINEL);
+        Wrapper firstNode = loadWrapper(context,pathName,startNode.getNextID());
 
         startNode.setNextID(wrapper.getUID());
         wrapper.setPrevID(startNode.getUID());
@@ -109,7 +114,7 @@ public class WrapperUtil {
         serializeWrapper(context,pathName,firstNode);
     }
 
-    static void insertWeightInfo(Context context,String pathName, WeightWrapper wrapper){
+    public static void insertWeightInfo(Context context,String pathName, WeightWrapper wrapper){
         //CHECK pathName make sure it ends with WEIGHTS
         if (!checkWeightPath(pathName)){
             return;
@@ -121,7 +126,7 @@ public class WrapperUtil {
 
     }
 
-    static void insertLogInfo(Context context,String pathName, LogInfoWrapper wrapper){
+    public static void insertLogInfo(Context context,String pathName, LogInfoWrapper wrapper){
         if (!checkLogPath(pathName)){
             return;
         }
@@ -132,7 +137,7 @@ public class WrapperUtil {
 
     }
 
-    static void insertPictureInfo(Context context,String pathName, PictureWrapper wrapper){
+    public static void insertPictureInfo(Context context,String pathName, PictureWrapper wrapper){
         if (!checkPicPath(pathName)){
             return;
         }
@@ -142,7 +147,7 @@ public class WrapperUtil {
     }
 
     //TODO implement
-    static  void removeWeightInfo(Context context,String pathName, int UID) {
+    public static  void removeWeightInfo(Context context,String pathName, int UID) {
         //CHECK PATHNAME MAKE SURE IT ENDS WITH WEIGHTS
         if (checkWeightPath(pathName)) {
             Wrapper currNode = loadWeightWrapper(context, pathName, UID);
@@ -157,7 +162,7 @@ public class WrapperUtil {
     }
 
     //TODO implement
-    static void removePicInfo(Context context,String pathName, int UID) {
+    public  static void removePicInfo(Context context,String pathName, int UID) {
         if (checkPicPath(pathName)) {
             Wrapper currNode = loadPictureWrapper(context, pathName, UID);
             Wrapper prevNode = loadPictureWrapper(context, pathName, currNode.getPrevID());
@@ -171,7 +176,7 @@ public class WrapperUtil {
     }
 
     //TODO implement
-    static void removeLogInfo(Context context,String pathName, int UID) {
+    public static void removeLogInfo(Context context,String pathName, int UID) {
         //CHECK PATHNAME MAKE SURE IT ENDS WITH LOGS
         if (checkLogPath(pathName)) {
             Wrapper currNode = loadLogInfoWrapper(context, pathName, UID);
@@ -185,30 +190,30 @@ public class WrapperUtil {
         }
     }
 
-    static String getDirName(String pathName) {
+    private static String getDirName(String pathName) {
         Path logPath = Paths.get(pathName);
         return logPath.getFileName().toString();
     }
 
 
-    static boolean checkLogPath(String pathName) {
+    private static boolean checkLogPath(String pathName) {
         String curDir = getDirName(pathName);
-        return curDir.equals(logPathDirName);
+        return curDir.endsWith(logPathDirName);
     }
 
 
-    static  boolean checkPicPath(String pathName) {
+    private static  boolean checkPicPath(String pathName) {
         String curDir = getDirName(pathName);
-        return curDir.equals(picPathDirName);
+        return curDir.endsWith(picPathDirName);
     }
 
-    static boolean checkWeightPath(String pathName) {
+    private static boolean checkWeightPath(String pathName) {
         String curDir = getDirName(pathName);
-        return curDir.equals(weightPathDirName);
+        return curDir.endsWith(weightPathDirName);
     }
 
 
-    static private void serializeWrapper(Context context,String pathName, toombs.animaltracker.Wrappers.Wrapper wrapper)  {
+    static private void serializeWrapper(Context context,String pathName, Wrapper wrapper)  {
         try {
             FileOutputStream fos = context.openFileOutput(pathName + wrapper.getUID(), Context.MODE_PRIVATE);
             ObjectOutputStream os = new ObjectOutputStream(fos);
@@ -221,13 +226,13 @@ public class WrapperUtil {
         }
     }
 
-    static private Wrapper loadWrapper(Context context, String pathName, long UUID) {
-        toombs.animaltracker.Wrappers.Wrapper wrapper= null;
+    private static  Wrapper loadWrapper(Context context, String pathName, long UUID) {
+       Wrapper wrapper= null;
         try {
             FileInputStream fis = context.openFileInput(pathName + UUID);
             ObjectInputStream is = new ObjectInputStream(fis);
 
-            wrapper = (toombs.animaltracker.Wrappers.Wrapper) is.readObject();
+            wrapper = (Wrapper) is.readObject();
 
             is.close();
             fis.close();
@@ -241,13 +246,13 @@ public class WrapperUtil {
 
        return wrapper;
     }
-    static private LogInfoWrapper loadLogInfoWrapper(Context context,String pathName, long UUID) {
+    public static LogInfoWrapper loadLogInfoWrapper(Context context,String pathName, long UUID) {
         return (LogInfoWrapper) loadWrapper(context,pathName,UUID);
     }
-    static private PictureWrapper loadPictureWrapper(Context context,String pathName, long UUID) {
+    public static  PictureWrapper loadPictureWrapper(Context context,String pathName, long UUID) {
         return (PictureWrapper) loadWrapper(context,pathName,UUID);
     }
-    static private WeightWrapper loadWeightWrapper(Context context, String pathName, long UUID) {
+    public static  WeightWrapper loadWeightWrapper(Context context, String pathName, long UUID) {
         return (WeightWrapper) loadWrapper(context,pathName,UUID);
     }
 }

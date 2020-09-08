@@ -1,4 +1,4 @@
-package toombs.animaltracker.Wrappers;
+package toombs.animaltracker.wrappers;
 
 import java.io.Serializable;
 

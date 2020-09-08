@@ -1,5 +1,6 @@
 package toombs.animaltracker.wrappers.infoClasses;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 /**
@@ -7,7 +8,7 @@ import java.util.GregorianCalendar;
  * A class the wrap generic information. Associates a calendar date with the object. Is a superclass
  * of other **T** Info classes that have information associated with the date as well.
  */
-public class GenericInfo {
+public class GenericInfo implements Serializable {
     /**
      * The date to associated with a given piece of information.
      */

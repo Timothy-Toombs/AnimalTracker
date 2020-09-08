@@ -4,7 +4,7 @@ import android.util.Log;
 
 import toombs.animaltracker.wrappers.infoClasses.WeightInfo;
 
-public class WeightWrapper extends toombs.animaltracker.Wrappers.Wrapper {
+public class WeightWrapper extends Wrapper {
     /**
      *
      * @param UID the unique identifier.
