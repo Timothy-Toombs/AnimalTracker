@@ -5,7 +5,7 @@ import android.util.Log;
 
 import toombs.animaltracker.wrappers.infoClasses.PictureInfo;
 
-public class PictureWrapper extends toombs.animaltracker.Wrappers.Wrapper {
+public class PictureWrapper extends Wrapper {
     /**
      *
      * @param UID the unique identifier.

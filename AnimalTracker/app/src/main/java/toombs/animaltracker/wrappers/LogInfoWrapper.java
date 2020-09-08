@@ -4,7 +4,7 @@ import android.util.Log;
 
 import toombs.animaltracker.wrappers.infoClasses.LogInfo;
 
-public class LogInfoWrapper extends toombs.animaltracker.Wrappers.Wrapper {
+public class LogInfoWrapper extends Wrapper {
     /**
      *
      * @param UID the unique identifier.
