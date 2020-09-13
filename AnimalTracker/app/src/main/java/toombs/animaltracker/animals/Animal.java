@@ -1,4 +1,4 @@
-package toombs.animaltracker.wrappers;
+package toombs.animaltracker.animals;
 
 import java.io.Serializable;
 import java.util.GregorianCalendar;
