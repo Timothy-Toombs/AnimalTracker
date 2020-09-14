@@ -3,6 +3,7 @@ package toombs.animaltracker.wrappers;
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,39 +12,39 @@ public class Animal implements Serializable {
     /**
      * The animal's scientific name if provided
      */
-   @Getter
+   @Getter(AccessLevel.PUBLIC)
    private String scientificName;
     /**
      * The animal's common name if provided, i.e. dog
      */
-    @Getter
+    @Getter(AccessLevel.PUBLIC)
     private String commonName;
     /**
      * The animal's pet name.
      */
-    @Getter
+    @Getter(AccessLevel.PUBLIC)
     private String petName;
     /**
      * The animal's date of birth
      */
-    @Getter
+    @Getter(AccessLevel.PUBLIC)
     private GregorianCalendar dateOfBirth;
     /**
      * The animal's sex.
      */
-    @Getter
+    @Getter(AccessLevel.PUBLIC)
     private String sex;
     /**
      * Whether or not an animal is archived or still in use.
      */
-    @Getter
+    @Getter(AccessLevel.PUBLIC)
     private boolean archived;
     /**
      * Ids corresponding to the next available
      * UUID for an animal's wrappers (of each type, respectively).
      * These are expected to be updated whenever there is a new wrapper created for the animal.
      */
-    @Getter @Setter
+    @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC)
     private int WeightUUID;
     private int LogInfoUUID;
     private int PictureUUID;
