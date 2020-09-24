@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Animal implements Serializable {
-
+    
     /**
      * The animal's scientific name if provided
      */
@@ -39,6 +39,12 @@ public class Animal implements Serializable {
     @Getter
     private boolean archived;
     /**
+     * This is the sha1 hash of the object. 
+     * It is used for the filename and the unique representation of each object.
+     */
+    @Getter @Setter
+    private String sha1;
+    /**
      * Ids corresponding to the next available
      * UUID for an animal's wrappers (of each type, respectively).
      * These are expected to be updated whenever there is a new wrapper created for the animal.
@@ -56,7 +62,7 @@ public class Animal implements Serializable {
      * @param archived       whether or not an animal is archived or still in use.
      */
     public Animal(String scientificName, String commonName, String petName, GregorianCalendar dateOfBirth,
-                  String sex, boolean archived) {
+                  String sex, boolean archived, String sha1) {
         this.WeightUUID = 0;
         this.LogInfoUUID = 0;
         this.PictureUUID = 0;
@@ -66,6 +72,7 @@ public class Animal implements Serializable {
         this.dateOfBirth = dateOfBirth;
         this.sex = sex;
         this.archived = archived;
+        this.sha1 = sha1;
     }
 
 
