@@ -12,41 +12,43 @@ public class Animal implements Serializable {
     /**
      * The animal's scientific name if provided
      */
-   @Getter(AccessLevel.PUBLIC)
+   @Getter
    private String scientificName;
     /**
      * The animal's common name if provided, i.e. dog
      */
-    @Getter(AccessLevel.PUBLIC)
+    @Getter
     private String commonName;
     /**
      * The animal's pet name.
      */
-    @Getter(AccessLevel.PUBLIC)
+    @Getter
     private String petName;
     /**
      * The animal's date of birth
      */
-    @Getter(AccessLevel.PUBLIC)
+    @Getter
     private GregorianCalendar dateOfBirth;
     /**
      * The animal's sex.
      */
-    @Getter(AccessLevel.PUBLIC)
+    @Getter
     private String sex;
     /**
      * Whether or not an animal is archived or still in use.
      */
-    @Getter(AccessLevel.PUBLIC)
+    @Getter
     private boolean archived;
     /**
      * Ids corresponding to the next available
      * UUID for an animal's wrappers (of each type, respectively).
      * These are expected to be updated whenever there is a new wrapper created for the animal.
      */
-    @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC)
+    @Getter @Setter
     private int WeightUUID;
+    @Getter @Setter
     private int LogInfoUUID;
+    @Getter @Setter
     private int PictureUUID;
     /**
      * @param scientificName The animal's scientific name if provided
