@@ -24,19 +24,18 @@ public class AnimalUtil {
         if (animalSet == null) {
             animalSet = new HashSet<>();
         }
-        String hashName = hashedAnimalName(animalToByteArray(animal));
-        animalSet.add(hashName);
+        animal.setHashName(hashedAnimalName(animalToByteArray(animal)));
+        animalSet.add(animal.getHashName());
         serializeObject(context, animalSetPath, animalSet);
-        serializeObject(context, hashName, animal);
+        serializeObject(context, animal.getHashName(), animal);
     }
 
     public static void removeAnimal(Context context, Animal animal) {
         HashSet<String> animalSet = loadAnimalSet(context, animalSetPath);
-        String hashName = hashedAnimalName(animalToByteArray(animal));
         if (!animalSet.isEmpty()) {
-            animalSet.remove(hashName);
+            animalSet.remove(animal.getHashName());
         }
-        context.deleteFile(hashName);
+        context.deleteFile(animal.getHashName());
         serializeObject(context, animalSetPath, animalSet);
     }
 
