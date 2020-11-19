@@ -14,6 +14,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
+import java.util.UUID;
 
 
 public class AnimalUtil {
@@ -24,51 +25,19 @@ public class AnimalUtil {
         if (animalSet == null) {
             animalSet = new HashSet<>();
         }
-        animal.setHashName(hashedAnimalName(animalToByteArray(animal)));
-        animalSet.add(animal.getHashName());
+        animal.setAnimalUUID(UUID.randomUUID().toString());
+        animalSet.add(animal.getAnimalUUID());
         serializeObject(context, animalSetPath, animalSet);
-        serializeObject(context, animal.getHashName(), animal);
+        serializeObject(context, animal.getAnimalUUID(), animal);
     }
 
     public static void removeAnimal(Context context, Animal animal) {
         HashSet<String> animalSet = loadAnimalSet(context, animalSetPath);
         if (!animalSet.isEmpty()) {
-            animalSet.remove(animal.getHashName());
+            animalSet.remove(animal.getAnimalUUID());
         }
-        context.deleteFile(animal.getHashName());
+        context.deleteFile(animal.getAnimalUUID());
         serializeObject(context, animalSetPath, animalSet);
-    }
-
-    private static String hashedAnimalName(byte[] byteArray) {
-        StringBuffer str = new StringBuffer();
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
-            byte[] messageDigest = md.digest(byteArray);
-            BigInteger no = new BigInteger(1, messageDigest);
-            String hashName = no.toString(16);
-            str.append(hashName);
-            while (str.length() < 32) {
-                str.insert(0, "0");
-            }
-        } catch (NoSuchAlgorithmException e) {
-            Log.e("error:NoSuchAlgorithmException",e.getMessage());
-        }
-        return str.toString();
-    }
-
-    private static byte[] animalToByteArray(Animal animal) {
-        byte[] animalBytes = null;
-        try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            ObjectOutputStream os = new ObjectOutputStream(out);
-            os.writeObject(animal);
-            os.flush();
-            animalBytes = out.toByteArray();
-            out.close();
-        } catch (IOException e){
-            Log.e("error:IOException",e.getMessage());
-        }
-        return animalBytes;
     }
 
     private static void serializeObject(Context context, String pathName, Object object) {

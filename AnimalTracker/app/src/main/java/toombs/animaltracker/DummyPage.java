@@ -50,7 +50,7 @@ import toombs.animaltracker.wrappers.infoClasses.LogInfo;
 public class DummyPage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog, dialog2;
-    private ImageView animalPicture, galleryIntent, cameraIntent;
+    private ImageView animalPicture;
     private EditText petName, scientificName, commonName, age, weight;
     private Button add, cancel, search;
     private Spinner spinner;

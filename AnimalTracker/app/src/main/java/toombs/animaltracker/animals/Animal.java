@@ -51,7 +51,7 @@ public class Animal implements Serializable {
     @Getter @Setter
     private int PictureUUID;
     @Getter @Setter
-    private String HashName;
+    private String AnimalUUID;
     /**
      * @param scientificName The animal's scientific name if provided
      * @param commonName     The animal's common name if provided, i.e. dog
@@ -65,7 +65,7 @@ public class Animal implements Serializable {
         this.WeightUUID = 0;
         this.LogInfoUUID = 0;
         this.PictureUUID = 0;
-        this.HashName = "";
+        this.AnimalUUID = "";
         this.scientificName = scientificName;
         this.commonName = commonName;
         this.petName = petName;
