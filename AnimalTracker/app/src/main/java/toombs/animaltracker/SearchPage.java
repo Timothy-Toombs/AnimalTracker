@@ -11,6 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+
+import toombs.animaltracker.animals.Animal;
+import toombs.animaltracker.animals.AnimalUtil;
+import toombs.animaltracker.wrappers.WrapperUtil;
+import toombs.animaltracker.wrappers.infoClasses.PictureInfo;
 
 public class SearchPage extends AppCompatActivity {
     private ArrayList<AnimalItem> mAnimalList;
@@ -24,22 +31,19 @@ public class SearchPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_page);
 
-        Bundle extras = getIntent().getExtras();
-        byte[] byteArray = extras.getByteArray("PICTURE");
-
         mAnimalList = new ArrayList<>();
-        mAnimalList.add(new AnimalItem(byteArray, "Line 1", "Line 2"));
-        mAnimalList.add(new AnimalItem(byteArray, "Line 3", "Line 4"));
-        mAnimalList.add(new AnimalItem(byteArray, "Line 5", "Line 6"));
-        mAnimalList.add(new AnimalItem(byteArray, "Line 1", "Line 2"));
-        mAnimalList.add(new AnimalItem(byteArray, "Line 3", "Line 4"));
-        mAnimalList.add(new AnimalItem(byteArray, "Line 5", "Line 6"));
-        mAnimalList.add(new AnimalItem(byteArray, "Line 1", "Line 2"));
-        mAnimalList.add(new AnimalItem(byteArray, "Line 3", "Line 4"));
-        mAnimalList.add(new AnimalItem(byteArray, "Line 5", "Line 6"));
-        mAnimalList.add(new AnimalItem(byteArray, "Line 1", "Line 2"));
-        mAnimalList.add(new AnimalItem(byteArray, "Line 3", "Line 4"));
-        mAnimalList.add(new AnimalItem(byteArray, "Line 5", "Line 6"));
+
+        HashSet<String> animalSet = AnimalUtil.loadAnimalSet(getApplicationContext(), AnimalUtil.animalSetPath);
+
+        if (animalSet != null) {
+            Iterator<String> i = animalSet.iterator();
+            while (i.hasNext()) {
+                Animal animal = AnimalUtil.loadAnimal(getApplicationContext(), i.next());
+                mAnimalList.add(new AnimalItem(((PictureInfo) WrapperUtil.loadPictureWrapper(getApplicationContext(),
+                        animal.getPetName() + WrapperUtil.picPathDirName, animal.getPictureUUID()).getResource()).getPicture(),
+                        animal.getPetName(), animal.getCommonName(), animal.getAnimalUUID()));
+            }
+        }
 
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
@@ -52,12 +56,8 @@ public class SearchPage extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new AnimalAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Bundle extras = new Bundle();
-                extras.putByteArray("ANIMAL_PIC", mAnimalList.get(position).getImageResource());
-                extras.putString("PET_NAME", mAnimalList.get(position).getText1());
-                extras.putString("COMMON_NAME", mAnimalList.get(position).getText2());
                 Intent intent = new Intent(SearchPage.this, AnimalPage.class);
-                intent.putExtras(extras);
+                intent.putExtra("ANIMAL_UUID", mAnimalList.get(position).getAnimalUUID());
                 startActivity(intent);
             }
         });

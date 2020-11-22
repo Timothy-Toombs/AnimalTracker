@@ -10,6 +10,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import toombs.animaltracker.animals.Animal;
+import toombs.animaltracker.animals.AnimalUtil;
+import toombs.animaltracker.wrappers.WrapperUtil;
+import toombs.animaltracker.wrappers.infoClasses.PictureInfo;
+
 public class AnimalPage extends AppCompatActivity {
     private ImageView animalPic;
     private TextView petName, commonName;
@@ -24,10 +29,13 @@ public class AnimalPage extends AppCompatActivity {
         commonName = findViewById(R.id.animalPage_commonName);
 
         Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        byte[] mAnimalPic = extras.getByteArray("ANIMAL_PIC");
-        String mPetName = extras.getString("PET_NAME");
-        String mCommonName = extras.getString("COMMON_NAME");
+        String animalUUID = intent.getStringExtra("ANIMAL_UUID");
+
+        Animal animal = AnimalUtil.loadAnimal(getApplicationContext(), animalUUID);
+        byte[] mAnimalPic = ((PictureInfo) WrapperUtil.loadPictureWrapper(getApplicationContext(), animal.getPetName() +
+                WrapperUtil.picPathDirName, animal.getPictureUUID()).getResource()).getPicture();
+        String mPetName = animal.getPetName();
+        String mCommonName = animal.getCommonName();
 
         Bitmap bitmap = BitmapFactory.decodeByteArray(mAnimalPic, 0, mAnimalPic.length);
 
