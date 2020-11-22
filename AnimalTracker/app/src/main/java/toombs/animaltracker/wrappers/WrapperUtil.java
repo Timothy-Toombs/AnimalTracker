@@ -24,9 +24,9 @@ public class WrapperUtil {
     //File directory = new File(Environment.getExternalStorageDirectory() + "/images");
     //directory.mkdirs();
     //use to uhhhh :))))
-    public static final  String logPathDirName = "LOGS_";
-    public static final String picPathDirName = "PICS_";
-    public static final String weightPathDirName = "WEIGHTS_";
+    public static final  String logPathDirName = "-LOGS_";
+    public static final String picPathDirName = "-PICS_";
+    public static final String weightPathDirName = "-WEIGHTS_";
 
     static void pairWrappers(Wrapper first, Wrapper second) {
 
@@ -226,10 +226,10 @@ public class WrapperUtil {
         }
     }
 
-    private static  Wrapper loadWrapper(Context context, String pathName, long UUID) {
+    private static  Wrapper loadWrapper(Context context, String pathName, long UID) {
        Wrapper wrapper= null;
         try {
-            FileInputStream fis = context.openFileInput(pathName + UUID);
+            FileInputStream fis = context.openFileInput(pathName + UID);
             ObjectInputStream is = new ObjectInputStream(fis);
 
             wrapper = (Wrapper) is.readObject();
@@ -246,13 +246,13 @@ public class WrapperUtil {
 
        return wrapper;
     }
-    public static LogInfoWrapper loadLogInfoWrapper(Context context,String pathName, long UUID) {
-        return (LogInfoWrapper) loadWrapper(context,pathName,UUID);
+    public static LogInfoWrapper loadLogInfoWrapper(Context context,String pathName, long UID) {
+        return (LogInfoWrapper) loadWrapper(context,pathName,UID);
     }
-    public static  PictureWrapper loadPictureWrapper(Context context,String pathName, long UUID) {
-        return (PictureWrapper) loadWrapper(context,pathName,UUID);
+    public static  PictureWrapper loadPictureWrapper(Context context,String pathName, long UID) {
+        return (PictureWrapper) loadWrapper(context,pathName,UID);
     }
-    public static  WeightWrapper loadWeightWrapper(Context context, String pathName, long UUID) {
-        return (WeightWrapper) loadWrapper(context,pathName,UUID);
+    public static  WeightWrapper loadWeightWrapper(Context context, String pathName, long UID) {
+        return (WeightWrapper) loadWrapper(context,pathName,UID);
     }
 }

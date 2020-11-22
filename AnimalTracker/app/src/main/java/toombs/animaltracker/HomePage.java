@@ -1,7 +1,5 @@
 package toombs.animaltracker;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -19,7 +16,6 @@ import androidx.appcompat.widget.Toolbar;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,27 +23,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
 import toombs.animaltracker.animals.Animal;
 import toombs.animaltracker.animals.AnimalUtil;
 import toombs.animaltracker.wrappers.PictureWrapper;
 import toombs.animaltracker.wrappers.Wrapper;
-import toombs.animaltracker.wrappers.LogInfoWrapper;
 import toombs.animaltracker.wrappers.WrapperUtil;
-import toombs.animaltracker.wrappers.infoClasses.LogInfo;
 import toombs.animaltracker.wrappers.infoClasses.PictureInfo;
 
 public class HomePage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -67,7 +54,7 @@ public class HomePage extends AppCompatActivity implements AdapterView.OnItemSel
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dummy_page);
+        setContentView(R.layout.activity_home_page);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

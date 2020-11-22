@@ -18,7 +18,7 @@ import java.util.UUID;
 
 
 public class AnimalUtil {
-    private static final String animalSetPath = "animalSet";
+    public static final String animalSetPath = "animalSet";
 
     public static void insertAnimal(Context context, Animal animal) {
         HashSet<String> animalSet = loadAnimalSet(context, animalSetPath);
