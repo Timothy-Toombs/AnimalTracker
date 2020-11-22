@@ -42,12 +42,15 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import toombs.animaltracker.animals.Animal;
+import toombs.animaltracker.animals.AnimalUtil;
+import toombs.animaltracker.wrappers.PictureWrapper;
 import toombs.animaltracker.wrappers.Wrapper;
 import toombs.animaltracker.wrappers.LogInfoWrapper;
 import toombs.animaltracker.wrappers.WrapperUtil;
 import toombs.animaltracker.wrappers.infoClasses.LogInfo;
+import toombs.animaltracker.wrappers.infoClasses.PictureInfo;
 
-public class DummyPage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class HomePage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog, dialog2;
     private ImageView animalPicture;
@@ -81,11 +84,22 @@ public class DummyPage extends AppCompatActivity implements AdapterView.OnItemSe
             //NOTE THAT THIS ONLY CONFIRMS THAT THE INFO LOADS AND SAVES.
             @Override
             public void onClick(View view) { //TODO this is just a test of functionality. du
-                WrapperUtil.insertLogInfo(getApplicationContext(), "DAISY-" + WrapperUtil.logPathDirName, new LogInfoWrapper(DummyPage.g, Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL,
-                        new LogInfo(new GregorianCalendar(), "THIS IS THE LOG MESSAGE")));
-                LogInfoWrapper wrapper = WrapperUtil.loadLogInfoWrapper(getApplicationContext(), "DAISY-" + WrapperUtil.logPathDirName, DummyPage.g);
-                Logger.getAnonymousLogger().info("THIS IS THE ID OF THE PREV AND THE NEXT, RESPECTIVELY: " + wrapper.getPrevID() + ", " + wrapper.getNextID());
-                DummyPage.g++;
+//                GregorianCalendar calendar = new GregorianCalendar();
+//                calendar.set(Calendar.YEAR, 2020);
+//                calendar.set(Calendar.MONTH, 11);
+//                calendar.set(Calendar.DAY_OF_MONTH, 19);
+//                Animal animal = new Animal("Dog", "Bernese Mountain Dog", "Charlie", calendar, "M", false);
+//                AnimalUtil.insertAnimal(DummyPage.this, animal);
+//                Animal animal1 = AnimalUtil.loadAnimal(DummyPage.this, animal.getAnimalUUID());
+//                WrapperUtil.insertPictureInfo(getApplicationContext(), "DAISY" + WrapperUtil.picPathDirName, new PictureWrapper(0, Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL,
+//                        new PictureInfo(new GregorianCalendar(), null)));
+                PictureWrapper wrapper = WrapperUtil.loadPictureWrapper(getApplicationContext(), "Snickers" + WrapperUtil.picPathDirName, 0);
+                Object object = wrapper.getResource();
+                String log = ((PictureInfo) object).getPicture().toString();
+                Logger.getAnonymousLogger().info("WRAPPER HAS A UID OF " + wrapper.getUID());
+                //Logger.getAnonymousLogger().info("THIS ANIMAL'S LOG MSG IS: " + log);
+                //Object object = wrapper.getResource();
+                Logger.getAnonymousLogger().info("THIS IS THE PICTURE STRING " + log);
             }
         }); //TODO REFACTOR THIS >:)
 
@@ -100,7 +114,6 @@ public class DummyPage extends AppCompatActivity implements AdapterView.OnItemSe
 
     private void openCurrentAnimals() {
         Intent intent = new Intent(this, SearchPage.class);
-        intent.putExtra("PICTURE", byteArray);
         startActivity(intent);
     }
 
@@ -181,7 +194,7 @@ public class DummyPage extends AppCompatActivity implements AdapterView.OnItemSe
         weight = animalPopupView.findViewById(R.id.newAnimal_weight);
 
         spinner = animalPopupView.findViewById(R.id.sexSpinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.sex, android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.sex, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
@@ -196,7 +209,13 @@ public class DummyPage extends AppCompatActivity implements AdapterView.OnItemSe
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Animal animal = new Animal(scientificName.getText().toString(), commonName.getText().toString(), petName.getText().toString(),
+                        new GregorianCalendar(), spinner.getSelectedItem().toString(), false);
+                AnimalUtil.insertAnimal(getApplicationContext(), animal);
+                WrapperUtil.insertPictureInfo(getApplicationContext(), animal.getPetName() + WrapperUtil.picPathDirName,
+                        new PictureWrapper(animal.getPictureUUID(), Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL,
+                                new PictureInfo(new GregorianCalendar(), byteArray)));
+                dialog.dismiss();
             }
         });
 

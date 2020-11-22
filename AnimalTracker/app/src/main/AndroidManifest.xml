@@ -12,7 +12,7 @@
         <activity android:name=".AnimalPage"></activity>
         <activity android:name=".SearchPage" />
         <activity
-            android:name=".DummyPage"
+            android:name=".HomePage"
             android:label="@string/title_activity_dummy_page"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
