@@ -39,16 +39,13 @@ import toombs.animaltracker.wrappers.infoClasses.PictureInfo;
 
 public class HomePage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private AlertDialog.Builder dialogBuilder;
-    private AlertDialog dialog, dialog2;
+    private AlertDialog dialog;
     private ImageView animalPicture;
     private EditText petName, scientificName, commonName, age, weight;
     private Button add, cancel, search;
     private Spinner spinner;
-    private String animalSex;
     private static final int TAKE_IMAGE = 0;
     private static final int PICK_IMAGE = 1;
-    static int g = 0;
-    private Uri imageUri;
     private byte[] byteArray;
 
     @Override
@@ -199,7 +196,7 @@ public class HomePage extends AppCompatActivity implements AdapterView.OnItemSel
                 Animal animal = new Animal(scientificName.getText().toString(), commonName.getText().toString(), petName.getText().toString(),
                         new GregorianCalendar(), spinner.getSelectedItem().toString(), false);
                 AnimalUtil.insertAnimal(getApplicationContext(), animal);
-                WrapperUtil.insertPictureInfo(getApplicationContext(), animal.getPetName() + WrapperUtil.picPathDirName,
+                WrapperUtil.insertPictureInfo(getApplicationContext(), animal.getAnimalUUID() + WrapperUtil.picPathDirName,
                         new PictureWrapper(animal.getPictureUUID(), Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL,
                                 new PictureInfo(new GregorianCalendar(), byteArray)));
                 dialog.dismiss();
@@ -219,7 +216,6 @@ public class HomePage extends AppCompatActivity implements AdapterView.OnItemSel
         super.onActivityResult(requestCode, resultCode, data);
 
         Bitmap bitmap;
-        imageUri = data.getData();
         switch (requestCode) {
             case 0:
                 if (resultCode == RESULT_OK) {
@@ -233,8 +229,9 @@ public class HomePage extends AppCompatActivity implements AdapterView.OnItemSel
                 break;
             case 1:
                 if (resultCode == RESULT_OK) {
-                    animalPicture.setImageURI(imageUri);
                     try {
+                        Uri imageUri = data.getData();
+                        animalPicture.setImageURI(imageUri);
                         bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                         ByteArrayOutputStream stream = new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);

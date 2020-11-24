@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +31,9 @@ public class SearchPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_page);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("My Animals");
+        setSupportActionBar(toolbar);
 
         mAnimalList = new ArrayList<>();
 
@@ -39,8 +43,8 @@ public class SearchPage extends AppCompatActivity {
             Iterator<String> i = animalSet.iterator();
             while (i.hasNext()) {
                 Animal animal = AnimalUtil.loadAnimal(getApplicationContext(), i.next());
-                mAnimalList.add(new AnimalItem(((PictureInfo) WrapperUtil.loadPictureWrapper(getApplicationContext(),
-                        animal.getPetName() + WrapperUtil.picPathDirName, animal.getPictureUUID()).getResource()).getPicture(),
+                mAnimalList.add(new AnimalItem(((PictureInfo) WrapperUtil.loadPictureWrapper(SearchPage.this,
+                        animal.getAnimalUUID() + WrapperUtil.picPathDirName, animal.getPictureUUID()).getResource()).getPicture(),
                         animal.getPetName(), animal.getCommonName(), animal.getAnimalUUID()));
             }
         }
