@@ -147,7 +147,7 @@ public class WrapperUtil {
     }
 
     //TODO implement
-    public static  void removeWeightInfo(Context context,String pathName, int UID) {
+    public static  void removeWeightInfo(Context context,String pathName, long UID) {
         //CHECK PATHNAME MAKE SURE IT ENDS WITH WEIGHTS
         if (checkWeightPath(pathName)) {
             Wrapper currNode = loadWeightWrapper(context, pathName, UID);
@@ -158,11 +158,14 @@ public class WrapperUtil {
             nextNode.setPrevID(prevNode.getUID());
 
             context.deleteFile(pathName + UID);
+
+            serializeWrapper(context, pathName, prevNode);
+            serializeWrapper(context, pathName, nextNode);
         }
     }
 
     //TODO implement
-    public  static void removePicInfo(Context context,String pathName, int UID) {
+    public  static void removePicInfo(Context context,String pathName, long UID) {
         if (checkPicPath(pathName)) {
             Wrapper currNode = loadPictureWrapper(context, pathName, UID);
             Wrapper prevNode = loadPictureWrapper(context, pathName, currNode.getPrevID());
@@ -172,11 +175,15 @@ public class WrapperUtil {
             nextNode.setPrevID(prevNode.getUID());
 
             context.deleteFile(pathName + UID);
+
+            serializeWrapper(context, pathName, prevNode);
+            serializeWrapper(context, pathName, nextNode);
+
         }
     }
 
     //TODO implement
-    public static void removeLogInfo(Context context,String pathName, int UID) {
+    public static void removeLogInfo(Context context,String pathName, long UID) {
         //CHECK PATHNAME MAKE SURE IT ENDS WITH LOGS
         if (checkLogPath(pathName)) {
             Wrapper currNode = loadLogInfoWrapper(context, pathName, UID);
@@ -187,6 +194,9 @@ public class WrapperUtil {
             nextNode.setPrevID(prevNode.getUID());
 
             context.deleteFile(pathName + UID);
+
+            serializeWrapper(context, pathName, prevNode);
+            serializeWrapper(context, pathName, nextNode);
         }
     }
 
