@@ -75,15 +75,15 @@ public class HomePage extends AppCompatActivity implements AdapterView.OnItemSel
 //                Animal animal = new Animal("Dog", "Bernese Mountain Dog", "Charlie", calendar, "M", false);
 //                AnimalUtil.insertAnimal(DummyPage.this, animal);
 //                Animal animal1 = AnimalUtil.loadAnimal(DummyPage.this, animal.getAnimalUUID());
-//                WrapperUtil.insertPictureInfo(getApplicationContext(), "DAISY" + WrapperUtil.picPathDirName, new PictureWrapper(0, Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL,
-//                        new PictureInfo(new GregorianCalendar(), null)));
-                PictureWrapper wrapper = WrapperUtil.loadPictureWrapper(getApplicationContext(), "Snickers" + WrapperUtil.picPathDirName, 0);
-                Object object = wrapper.getResource();
-                String log = ((PictureInfo) object).getPicture().toString();
+                WrapperUtil.insertPictureInfo(getApplicationContext(), "DAISY" + WrapperUtil.picPathDirName, new PictureWrapper(0, Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL,
+                        new PictureInfo(new GregorianCalendar(), null)));
+                PictureWrapper wrapper = WrapperUtil.loadPictureWrapper(getApplicationContext(), "DAISY" + WrapperUtil.picPathDirName, 0);
+                //Object object = wrapper.getResource();
+                //String log = ((PictureInfo) object).getPicture().toString();
                 Logger.getAnonymousLogger().info("WRAPPER HAS A UID OF " + wrapper.getUID());
                 //Logger.getAnonymousLogger().info("THIS ANIMAL'S LOG MSG IS: " + log);
                 //Object object = wrapper.getResource();
-                Logger.getAnonymousLogger().info("THIS IS THE PICTURE STRING " + log);
+                //Logger.getAnonymousLogger().info("THIS IS THE PICTURE STRING " + log);
             }
         }); //TODO REFACTOR THIS >:)
 
@@ -195,10 +195,12 @@ public class HomePage extends AppCompatActivity implements AdapterView.OnItemSel
             public void onClick(View v) {
                 Animal animal = new Animal(scientificName.getText().toString(), commonName.getText().toString(), petName.getText().toString(),
                         new GregorianCalendar(), spinner.getSelectedItem().toString(), false);
-                AnimalUtil.insertAnimal(getApplicationContext(), animal);
-                WrapperUtil.insertPictureInfo(getApplicationContext(), animal.getAnimalUUID() + WrapperUtil.picPathDirName,
-                        new PictureWrapper(animal.getPictureUUID(), Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL,
+                AnimalUtil.insertAnimal(HomePage.this, animal);
+                WrapperUtil.insertPictureInfo(HomePage.this, animal.getAnimalUUID() + WrapperUtil.picPathDirName,
+                        new PictureWrapper(animal.getPictureUUID()+1, Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL,
                                 new PictureInfo(new GregorianCalendar(), byteArray)));
+                animal.setPictureUUID(animal.getPictureUUID()+1);
+                AnimalUtil.updateAnimal(HomePage.this, animal);
                 dialog.dismiss();
             }
         });
