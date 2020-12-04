@@ -40,6 +40,10 @@ public class AnimalUtil {
         serializeObject(context, animalSetPath, animalSet);
     }
 
+    public static void updateAnimal(Context context, Animal animal) {
+        serializeObject(context, animal.getAnimalUUID(), animal);
+    }
+
     private static void serializeObject(Context context, String pathName, Object object) {
         try {
             FileOutputStream fos = context.openFileOutput(pathName, Context.MODE_PRIVATE);

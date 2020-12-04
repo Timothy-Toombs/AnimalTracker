@@ -45,11 +45,11 @@ public class Animal implements Serializable {
      * These are expected to be updated whenever there is a new wrapper created for the animal.
      */
     @Getter @Setter
-    private int WeightUUID;
+    private long WeightUUID;
     @Getter @Setter
-    private int LogInfoUUID;
+    private long LogInfoUUID;
     @Getter @Setter
-    private int PictureUUID;
+    private long PictureUUID;
     @Getter @Setter
     private String AnimalUUID;
     /**
@@ -62,9 +62,9 @@ public class Animal implements Serializable {
      */
     public Animal(String scientificName, String commonName, String petName, GregorianCalendar dateOfBirth,
                   String sex, boolean archived) {
-        this.WeightUUID = 0;
-        this.LogInfoUUID = 0;
-        this.PictureUUID = 0;
+        this.WeightUUID = -1;
+        this.LogInfoUUID = -1;
+        this.PictureUUID = -1;
         this.AnimalUUID = "";
         this.scientificName = scientificName;
         this.commonName = commonName;
