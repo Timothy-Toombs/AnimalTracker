@@ -35,14 +35,17 @@ public class SearchPage extends AppCompatActivity {
         toolbar.setTitle("My Animals");
         setSupportActionBar(toolbar);
 
+        inflateView();
+    }
+
+    private void inflateView() {
         mAnimalList = new ArrayList<>();
 
-        HashSet<String> animalSet = AnimalUtil.loadAnimalSet(getApplicationContext(), AnimalUtil.animalSetPath);
+        HashSet<String> animalSet = AnimalUtil.loadAnimalSet(SearchPage.this, AnimalUtil.animalSetPath);
 
         if (animalSet != null) {
-            Iterator<String> i = animalSet.iterator();
-            while (i.hasNext()) {
-                Animal animal = AnimalUtil.loadAnimal(getApplicationContext(), i.next());
+            for (String s : animalSet) {
+                Animal animal = AnimalUtil.loadAnimal(getApplicationContext(), s);
                 mAnimalList.add(new AnimalItem(((PictureInfo) WrapperUtil.loadPictureWrapper(SearchPage.this,
                         animal.getAnimalUUID() + WrapperUtil.picPathDirName, animal.getPictureUUID()).getResource()).getPicture(),
                         animal.getPetName(), animal.getCommonName(), animal.getAnimalUUID()));
@@ -65,5 +68,12 @@ public class SearchPage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        inflateView();
     }
 }
