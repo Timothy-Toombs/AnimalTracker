@@ -37,7 +37,7 @@ public class Animal implements Serializable {
     /**
      * Whether or not an animal is archived or still in use.
      */
-    @Getter
+    @Getter @Setter
     private boolean archived;
     /**
      * Ids corresponding to the next available
