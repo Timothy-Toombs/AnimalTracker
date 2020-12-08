@@ -14,6 +14,8 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.UUID;
 
 
@@ -21,9 +23,9 @@ public class AnimalUtil {
     public static final String animalSetPath = "animalSet";
 
     public static void insertAnimal(Context context, Animal animal) {
-        HashSet<String> animalSet = loadAnimalSet(context, animalSetPath);
+        LinkedHashSet<String> animalSet = loadAnimalSet(context, animalSetPath);
         if (animalSet == null) {
-            animalSet = new HashSet<>();
+            animalSet = new LinkedHashSet<>();
         }
         animal.setAnimalUUID(UUID.randomUUID().toString());
         animalSet.add(animal.getAnimalUUID());
@@ -32,7 +34,7 @@ public class AnimalUtil {
     }
 
     public static void removeAnimal(Context context, Animal animal) {
-        HashSet<String> animalSet = loadAnimalSet(context, animalSetPath);
+        LinkedHashSet<String> animalSet = loadAnimalSet(context, animalSetPath);
         if (!animalSet.isEmpty()) {
             animalSet.remove(animal.getAnimalUUID());
         }
@@ -78,8 +80,8 @@ public class AnimalUtil {
         return object;
     }
 
-    public static HashSet<String> loadAnimalSet(Context context, String pathName) {
-        return (HashSet<String>) loadObject(context, pathName);
+    public static LinkedHashSet<String> loadAnimalSet(Context context, String pathName) {
+        return (LinkedHashSet<String>) loadObject(context, pathName);
     }
 
     public static Animal loadAnimal(Context context, String pathName) {
