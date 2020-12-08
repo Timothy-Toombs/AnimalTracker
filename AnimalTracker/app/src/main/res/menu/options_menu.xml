@@ -13,6 +13,11 @@
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/archive_animal"
+        android:title="Archive Animal"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/delete_animal"
         android:title="Delete Animal"
         app:showAsAction="never"/>

@@ -77,14 +77,24 @@ public class AnimalPage extends AppCompatActivity {
         petName.setText(mPetName);
         commonName.setText(mCommonName);
 
+        invalidateOptionsMenu();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.archive_animal);
+        if (!animal.isArchived())
+            item.setTitle(R.string.archive_animal);
+        else
+            item.setTitle(R.string.unarchive_animal);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -95,6 +105,19 @@ public class AnimalPage extends AppCompatActivity {
                 return true;
             case R.id.add_new_animal_pic:
                 addAnimalPic();
+                return true;
+            case R.id.archive_animal:
+                animal.setArchived(!animal.isArchived());
+                AnimalUtil.updateAnimal(AnimalPage.this, animal);
+                if (!animal.isArchived()) {
+                    item.setTitle(R.string.archive_animal);
+                    Toast.makeText(AnimalPage.this, animal.getPetName() + " is unarchived",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    item.setTitle(R.string.unarchive_animal);
+                    Toast.makeText(AnimalPage.this, animal.getPetName() + " is archived",
+                            Toast.LENGTH_SHORT).show();
+                }
                 return true;
             case R.id.delete_animal:
                 deleteAnimal();
