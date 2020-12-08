@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/show_archived_animals_option"
+        android:title=""
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/search_animal_option"
+        android:title="Search Animals"
+        app:showAsAction="never"/>
 
 </menu>
