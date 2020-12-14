@@ -9,7 +9,7 @@
 
     <item
         android:id="@+id/search_animal_option"
-        android:title="Search Animals"
+        android:title=""
         app:showAsAction="never"/>
 
 </menu>

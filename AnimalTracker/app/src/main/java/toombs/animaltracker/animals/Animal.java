@@ -73,8 +73,4 @@ public class Animal implements Serializable {
         this.sex = sex;
         this.archived = archived;
     }
-
-
-
-
 }
