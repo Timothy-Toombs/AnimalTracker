@@ -44,40 +44,84 @@ import toombs.animaltracker.wrappers.infoClasses.PictureInfo;
 
 public class AnimalPage extends AppCompatActivity {
     private ImageView animalPic;
-    private TextView petName, commonName;
+    private TextView petName, commonName, scientificName, animalAge, animalWeight, animalLog, animalSex;
     private Animal animal;
-    private byte[] byteArray;
-    private static final int TAKE_IMAGE = 0;
-    private static final int PICK_IMAGE = 1;
+    private String animalUUID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_animal_page);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Animal Page");
+        toolbar.setTitle("Animal's Page");
         setSupportActionBar(toolbar);
 
-        animalPic = findViewById(R.id.animalPage_pic);
-        petName = findViewById(R.id.animalPage_petName);
-        commonName = findViewById(R.id.animalPage_commonName);
+        animalPic = findViewById(R.id.animal_page_pic);
+        petName = findViewById(R.id.animal_page_pet_name);
+        commonName = findViewById(R.id.animal_page_common_name);
+        scientificName = findViewById(R.id.animal_page_scientific_name);
+        animalAge = findViewById(R.id.animal_page_age);
+        animalSex = findViewById(R.id.animal_page_sex);
+        animalWeight = findViewById(R.id.animal_page_weight);
+        animalLog = findViewById(R.id.animal_page_log);
+        animalLog.setText(R.string.animal_page_log_entry);
 
         Intent intent = getIntent();
-        String animalUUID = intent.getStringExtra("ANIMAL_UUID");
+        animalUUID = intent.getStringExtra("ANIMAL_UUID");
+        animal = AnimalUtil.loadAnimal(AnimalPage.this, animalUUID);
 
+        displayAnimal();
+
+        petName.setText(animal.getPetName());
+        commonName.setText(animal.getCommonName());
+        scientificName.setText(animal.getScientificName());
+        animalSex.setText(animal.getSex());
+
+        animalPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AnimalPage.this, AnimalPicturesPage.class);
+                intent.putExtra("ANIMAL_UUID", animalUUID);
+                intent.putExtra("PICTURE_UID", animal.getPictureUUID());
+                startActivity(intent);
+            }
+        });
+
+        animalWeight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AnimalPage.this, AnimalWeightsPage.class);
+                intent.putExtra("ANIMAL_UUID", animalUUID);
+                intent.putExtra("WEIGHT_UID", animal.getWeightUUID());
+                startActivity(intent);
+            }
+        });
+
+        animalLog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AnimalPage.this, AnimalLogsPage.class);
+                intent.putExtra("ANIMAL_UUID", animalUUID);
+                intent.putExtra("LOG_UID", animal.getLogInfoUUID());
+                startActivity(intent);
+            }
+        });
+
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        displayAnimal();
+    }
+
+    private void displayAnimal() {
         animal = AnimalUtil.loadAnimal(AnimalPage.this, animalUUID);
         byte[] mAnimalPic = ((PictureInfo) WrapperUtil.loadPictureWrapper(AnimalPage.this, animal.getAnimalUUID() +
                 WrapperUtil.picPathDirName, animal.getPictureUUID()).getResource()).getPicture();
-        String mPetName = animal.getPetName();
-        String mCommonName = animal.getCommonName();
-
         Bitmap bitmap = BitmapFactory.decodeByteArray(mAnimalPic, 0, mAnimalPic.length);
-
         animalPic.setImageBitmap(bitmap);
-        petName.setText(mPetName);
-        commonName.setText(mCommonName);
-
-        invalidateOptionsMenu();
     }
 
     @Override
@@ -104,14 +148,13 @@ public class AnimalPage extends AppCompatActivity {
                 addAnimalLog();
                 return true;
             case R.id.add_new_animal_pic:
-                addAnimalPic();
                 return true;
             case R.id.archive_animal:
                 animal.setArchived(!animal.isArchived());
                 AnimalUtil.updateAnimal(AnimalPage.this, animal);
                 if (!animal.isArchived()) {
                     item.setTitle(R.string.archive_animal);
-                    Toast.makeText(AnimalPage.this, animal.getPetName() + " is unarchived",
+                    Toast.makeText(AnimalPage.this, animal.getPetName() + " is no longer archived",
                             Toast.LENGTH_SHORT).show();
                 } else {
                     item.setTitle(R.string.unarchive_animal);
@@ -185,29 +228,6 @@ public class AnimalPage extends AppCompatActivity {
         });
     }
 
-    private void addAnimalPic() {
-        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
-
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AnimalPage.this);
-        dialogBuilder.setTitle("Add a picture");
-
-        dialogBuilder.setItems(options, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (options[which].equals("Take Photo")) {
-                    Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(takePicture, TAKE_IMAGE);
-                } else if (options[which].equals("Choose from Gallery")) {
-                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(pickPhoto, PICK_IMAGE);
-                } else if (options[which].equals("Cancel")) {
-                    dialog.dismiss();
-                }
-            }
-        });
-        dialogBuilder.show();
-    }
-
     private void deleteAnimal() {
         AlertDialog.Builder builder = new AlertDialog.Builder(AnimalPage.this);
         builder.setTitle("Delete Animal");
@@ -262,52 +282,5 @@ public class AnimalPage extends AppCompatActivity {
 
         final AlertDialog dialog = builder.create();
         dialog.show();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case 0:
-                if (resultCode == RESULT_OK) {
-                    Bundle extras = data.getExtras();
-                    Bitmap bitmap = (Bitmap) extras.get("data");
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                    byteArray = stream.toByteArray();
-                }
-                break;
-            case 1:
-                if (resultCode == RESULT_OK) {
-                    try {
-                        Uri imageUri = data.getData();
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                        byteArray = stream.toByteArray();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-        }
-
-        if (byteArray != null) {
-            if (animal.getPictureUUID() == -1) {
-                WrapperUtil.insertPictureInfo(AnimalPage.this, animal.getAnimalUUID() +
-                        WrapperUtil.picPathDirName, new PictureWrapper(animal.getPictureUUID() + 1,
-                        Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL,
-                        new PictureInfo(new GregorianCalendar(), byteArray)));
-            } else {
-                WrapperUtil.insertPictureInfo(AnimalPage.this, animal.getAnimalUUID() +
-                        WrapperUtil.picPathDirName, new PictureWrapper(animal.getPictureUUID() + 1,
-                        Wrapper.WRAPPER_START_SENTINEL, animal.getPictureUUID(),
-                        new PictureInfo(new GregorianCalendar(), byteArray)));
-            }
-            animal.setPictureUUID(animal.getPictureUUID() + 1);
-            AnimalUtil.updateAnimal(AnimalPage.this, animal);
-            byteArray = null;
-        }
     }
 }

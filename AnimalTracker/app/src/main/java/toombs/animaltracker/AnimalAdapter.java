@@ -70,8 +70,8 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.AnimalView
         Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
         holder.mImageView.setImageBitmap(bitmap);
-        holder.mTextView1.setText(currentItem.getText1());
-        holder.mTextView2.setText(currentItem.getText2());
+        holder.mTextView1.setText(currentItem.getAnimalPetName());
+        holder.mTextView2.setText(currentItem.getAnimalCommonName());
     }
 
     @Override

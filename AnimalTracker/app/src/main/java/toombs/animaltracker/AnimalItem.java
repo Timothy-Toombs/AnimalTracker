@@ -1,29 +1,29 @@
 package toombs.animaltracker;
 
 public class AnimalItem {
-    private byte[] mImageResource;
-    private String mText1;
-    private String mText2;
-    private String mAnimalUUID;
+    private byte[] imageResource;
+    private String animalPetName;
+    private String animalCommonName;
+    private String animalUUID;
 
-    public AnimalItem(byte[] imageResource, String text1, String text2, String animalUUID) {
-        mImageResource = imageResource;
-        mText1 = text1;
-        mText2 = text2;
-        mAnimalUUID = animalUUID;
+    public AnimalItem(byte[] imageResource, String animalPetName, String animalCommonName, String animalUUID) {
+        this.imageResource = imageResource;
+        this.animalPetName = animalPetName;
+        this.animalCommonName = animalCommonName;
+        this.animalUUID = animalUUID;
     }
 
     public byte[] getImageResource() {
-        return mImageResource;
+        return imageResource;
     }
 
-    public String getText1() {
-        return mText1;
+    public String getAnimalPetName() {
+        return animalPetName;
     }
 
-    public String getText2() {
-        return mText2;
+    public String getAnimalCommonName() {
+        return animalCommonName;
     }
 
-    public String getAnimalUUID() {return mAnimalUUID;}
+    public String getAnimalUUID() { return animalUUID; }
 }

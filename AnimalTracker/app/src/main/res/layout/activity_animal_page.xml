@@ -9,36 +9,112 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
 
-    <ImageView
-        android:id="@+id/animalPage_pic"
-        android:layout_below="@+id/toolbar"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:padding="5dp" />
+    <RelativeLayout
+        android:id="@+id/animal_page_info_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar">
+
+        <ImageView
+            android:id="@+id/animal_page_pic"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:padding="5dp" />
+
+        <TextView
+            android:id="@+id/animal_page_pet_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/animal_page_pic"
+            android:textSize="20sp"
+            android:text="Pet Name"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"
+            android:textColor="@android:color/black"
+            />
+
+        <TextView
+            android:id="@+id/animal_page_common_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/animal_page_pic"
+            android:textSize="15sp"
+            android:text="Common Name"
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/animal_page_pet_name"
+            android:textColor="@android:color/black"
+            />
+
+        <TextView
+            android:id="@+id/animal_page_scientific_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/animal_page_pic"
+            android:textSize="15sp"
+            android:text="Scientific Name"
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/animal_page_common_name"
+            android:textColor="@android:color/black"
+            />
+
+        <TextView
+            android:id="@+id/animal_page_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/animal_page_pic"
+            android:textSize="15sp"
+            android:text="Age"
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/animal_page_scientific_name"
+            android:textColor="@android:color/black"
+            />
+
+        <TextView
+            android:id="@+id/animal_page_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/animal_page_pic"
+            android:textSize="15sp"
+            android:text="Age"
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/animal_page_age"
+            android:textColor="@android:color/black"
+            />
+
+        <TextView
+            android:id="@+id/animal_page_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/animal_page_pic"
+            android:textSize="30sp"
+            android:text="Weight"
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/animal_page_sex"
+            android:textColor="@android:color/black"
+            />
+
+    </RelativeLayout>
 
     <TextView
-        android:id="@+id/animalPage_petName"
-        android:layout_width="wrap_content"
+        android:id="@+id/animal_page_log"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/animalPage_pic"
-        android:layout_below="@+id/toolbar"
-        android:textSize="20sp"
-        android:text="Pet Name"
-        android:textStyle="bold"
-        android:layout_marginStart="10dp"
+        android:layout_below="@id/animal_page_info_section"
+        android:text="Animal log will go here"
+        android:textSize="40sp"
         android:textColor="@android:color/black"
+        android:gravity="center"
         />
 
     <TextView
-        android:id="@+id/animalPage_commonName"
-        android:layout_width="wrap_content"
+        android:id="@+id/animal_page_reminders"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/animalPage_pic"
-        android:textSize="15sp"
-        android:text="Common Name"
-        android:layout_marginStart="10dp"
-        android:layout_below="@id/animalPage_petName"
+        android:layout_below="@id/animal_page_log"
+        android:text="Animal reminders will go here"
         android:textColor="@android:color/black"
+        android:textSize="40sp"
+        android:gravity="center"
         />
 
 </RelativeLayout>

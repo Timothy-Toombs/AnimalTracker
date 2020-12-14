@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AnimalPage"></activity>
+        <activity android:name=".AnimalLogsPage"></activity>
+        <activity android:name=".AnimalWeightsPage" />
+        <activity android:name=".AnimalPicturesPage" />
+        <activity android:name=".AnimalPage" />
         <activity android:name=".SearchPage" />
         <activity
             android:name=".HomePage"
@@ -22,8 +25,8 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>
