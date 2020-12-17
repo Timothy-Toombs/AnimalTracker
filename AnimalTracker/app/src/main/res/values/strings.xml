@@ -11,10 +11,21 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="info_date_place_holder">InfoDate will go here</string>
-    <string name="animal_page_log_entry">Tap here to enter a new log for your animal</string>
+    <string name="animal_picture_info_date">"Date\nTaken:\n%1$s"</string>
+    <string name="animal_log_message">"%1$s - %2$s"</string>
+    <string name="animal_weight_info">"%1$s - %2$d%3$s"</string>
+    <string name="animal_page_weight">"%1$d%2$s"</string>
+    <string name="animal_page_log_entry">Tap here to enter a new log entry for your animal</string>
     <string-array name="sex">
         <item>Select</item>
         <item>Male</item>
         <item>Female</item>
+    </string-array>
+    <string-array name="weight_units">
+        <item>Select unit</item>
+        <item>g</item>
+        <item>kg</item>
+        <item>oz</item>
+        <item>lbs</item>
     </string-array>
 </resources>

@@ -41,6 +41,7 @@ import toombs.animaltracker.wrappers.Wrapper;
 import toombs.animaltracker.wrappers.WrapperUtil;
 import toombs.animaltracker.wrappers.infoClasses.LogInfo;
 import toombs.animaltracker.wrappers.infoClasses.PictureInfo;
+import toombs.animaltracker.wrappers.infoClasses.WeightInfo;
 
 public class AnimalPage extends AppCompatActivity {
     private ImageView animalPic;
@@ -92,7 +93,6 @@ public class AnimalPage extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(AnimalPage.this, AnimalWeightsPage.class);
                 intent.putExtra("ANIMAL_UUID", animalUUID);
-                intent.putExtra("WEIGHT_UID", animal.getWeightUUID());
                 startActivity(intent);
             }
         });
@@ -102,7 +102,6 @@ public class AnimalPage extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(AnimalPage.this, AnimalLogsPage.class);
                 intent.putExtra("ANIMAL_UUID", animalUUID);
-                intent.putExtra("LOG_UID", animal.getLogInfoUUID());
                 startActivity(intent);
             }
         });
@@ -118,10 +117,28 @@ public class AnimalPage extends AppCompatActivity {
 
     private void displayAnimal() {
         animal = AnimalUtil.loadAnimal(AnimalPage.this, animalUUID);
-        byte[] mAnimalPic = ((PictureInfo) WrapperUtil.loadPictureWrapper(AnimalPage.this, animal.getAnimalUUID() +
-                WrapperUtil.picPathDirName, animal.getPictureUUID()).getResource()).getPicture();
+
+        PictureWrapper pictureWrapper = WrapperUtil.loadPictureWrapper(AnimalPage.this, animal.getAnimalUUID() +
+                WrapperUtil.picPathDirName, animal.getPictureUUID());
+        byte[] mAnimalPic = ((PictureInfo) pictureWrapper.getResource()).getPicture();
         Bitmap bitmap = BitmapFactory.decodeByteArray(mAnimalPic, 0, mAnimalPic.length);
         animalPic.setImageBitmap(bitmap);
+
+        LogInfoWrapper logInfoWrapper = WrapperUtil.loadLogInfoWrapper(AnimalPage.this, animal.getAnimalUUID() +
+                WrapperUtil.logPathDirName, animal.getLogInfoUUID());
+        if (logInfoWrapper == null)
+            animalLog.setText(R.string.animal_page_log_entry);
+        else {
+            String calendar = DateUtil.logMsgInfoDateToString(((LogInfo) logInfoWrapper.getResource()).getInfoDate());
+            String log = ((LogInfo) logInfoWrapper.getResource()).getLogMsg();
+            animalLog.setText(getApplicationContext().getString(R.string.animal_log_message, calendar, log));
+        }
+
+        WeightWrapper weightWrapper = WrapperUtil.loadWeightWrapper(AnimalPage.this, animal.getAnimalUUID()+
+                WrapperUtil.weightPathDirName, animal.getWeightUUID());
+        double weightNumeric = ((WeightInfo) weightWrapper.getResource()).getWeight();
+        String weightUnit = ((WeightInfo) weightWrapper.getResource()).getUnit();
+        animalWeight.setText(getApplicationContext().getString(R.string.animal_page_weight, weightNumeric, weightUnit));
     }
 
     @Override
@@ -145,7 +162,6 @@ public class AnimalPage extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_new_animal_log:
-                addAnimalLog();
                 return true;
             case R.id.add_new_animal_pic:
                 return true;
@@ -168,64 +184,6 @@ public class AnimalPage extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void addAnimalLog() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(AnimalPage.this);
-        builder.setTitle("Log");
-        builder.setMessage("Enter Log Message");
-        builder.setPositiveButton("Save", null);
-        builder.setNegativeButton("Cancel", null);
-
-        final EditText input = new EditText(AnimalPage.this);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        input.setLayoutParams(layoutParams);
-        builder.setView(input);
-
-
-        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-
-        final AlertDialog dialog = builder.create();
-        dialog.show();
-
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String log = input.getText().toString();
-                if (log.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Enter a valid log message",
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    if (animal.getLogInfoUUID() == -1) {
-                        WrapperUtil.insertLogInfo(AnimalPage.this, animal.getAnimalUUID() +
-                                WrapperUtil.logPathDirName, new LogInfoWrapper(animal.getLogInfoUUID() + 1,
-                                Wrapper.WRAPPER_START_SENTINEL, Wrapper.WRAPPER_END_SENTINEL,
-                                new LogInfo(new GregorianCalendar(), log)));
-                    } else {
-                        WrapperUtil.insertLogInfo(AnimalPage.this, animal.getAnimalUUID() +
-                                WrapperUtil.logPathDirName, new LogInfoWrapper(animal.getLogInfoUUID() + 1,
-                                Wrapper.WRAPPER_START_SENTINEL, animal.getLogInfoUUID(),
-                                new LogInfo(new GregorianCalendar(), log)));
-                    }
-                    animal.setLogInfoUUID(animal.getLogInfoUUID() + 1);
-                    AnimalUtil.updateAnimal(AnimalPage.this, animal);
-                    dialog.dismiss();
-                }
-            }
-        });
     }
 
     private void deleteAnimal() {

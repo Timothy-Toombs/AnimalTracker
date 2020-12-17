@@ -97,13 +97,14 @@
 
     <TextView
         android:id="@+id/animal_page_log"
+        android:padding="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/animal_page_info_section"
         android:text="Animal log will go here"
-        android:textSize="40sp"
+        android:textSize="20sp"
         android:textColor="@android:color/black"
-        android:gravity="center"
+        android:textStyle="bold"
         />
 
     <TextView
