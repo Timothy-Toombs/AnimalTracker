@@ -81,6 +81,12 @@ public abstract class Wrapper implements Serializable {
         return UID;
     }
 
+    /**
+     *
+     * @return the object resource associated with the respective wrapper.
+     */
+    public Object getResource() {return resource;}
+
     /*setters*/
 
     /**

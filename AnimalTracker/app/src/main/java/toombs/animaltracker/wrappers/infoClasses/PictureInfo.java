@@ -8,14 +8,14 @@ public class PictureInfo extends  GenericInfo {
     /**
      * The image that is being saved.
      */
-    private Image picture;
+    private byte[] picture;
 
     /**
      *
      * @param infoDate the date corresponding to the message.
-     * @param picture the image tha is being saved.
+     * @param picture the image that is being saved.
      */
-    public PictureInfo(GregorianCalendar infoDate, Image picture) {
+    public PictureInfo(GregorianCalendar infoDate, byte[] picture) {
         super(infoDate);
         this.picture = picture;
     }
@@ -24,7 +24,7 @@ public class PictureInfo extends  GenericInfo {
      *
      * @return the image that is saved.
      */
-    public Image getPicture() {
+    public byte[] getPicture() {
         return picture;
     }
 }

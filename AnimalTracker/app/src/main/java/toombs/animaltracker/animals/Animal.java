@@ -3,6 +3,7 @@ package toombs.animaltracker.animals;
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,7 +37,7 @@ public class Animal implements Serializable {
     /**
      * Whether or not an animal is archived or still in use.
      */
-    @Getter
+    @Getter @Setter
     private boolean archived;
     /**
      * Ids corresponding to the next available
@@ -44,9 +45,13 @@ public class Animal implements Serializable {
      * These are expected to be updated whenever there is a new wrapper created for the animal.
      */
     @Getter @Setter
-    private int WeightUUID;
-    private int LogInfoUUID;
-    private int PictureUUID;
+    private long WeightUUID;
+    @Getter @Setter
+    private long LogInfoUUID;
+    @Getter @Setter
+    private long PictureUUID;
+    @Getter @Setter
+    private String AnimalUUID;
     /**
      * @param scientificName The animal's scientific name if provided
      * @param commonName     The animal's common name if provided, i.e. dog
@@ -57,9 +62,10 @@ public class Animal implements Serializable {
      */
     public Animal(String scientificName, String commonName, String petName, GregorianCalendar dateOfBirth,
                   String sex, boolean archived) {
-        this.WeightUUID = 0;
-        this.LogInfoUUID = 0;
-        this.PictureUUID = 0;
+        this.WeightUUID = -1;
+        this.LogInfoUUID = -1;
+        this.PictureUUID = -1;
+        this.AnimalUUID = "";
         this.scientificName = scientificName;
         this.commonName = commonName;
         this.petName = petName;
@@ -67,8 +73,4 @@ public class Animal implements Serializable {
         this.sex = sex;
         this.archived = archived;
     }
-
-
-
-
 }
